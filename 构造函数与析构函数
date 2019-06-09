@@ -1,0 +1,41 @@
+#include<iostream>
+using namespace std;
+
+class Clock {
+public:
+	Clock(int newH, int newM, int newS);//构造函数，没有返回值
+	Clock(Clock& a);//复制构造函数
+	~Clock() {
+		cout << "析构了一个对象" << endl;
+	}//析构函数，不接受任何参数
+	void SetTime(int newH, int newM, int newS);
+	void ShowTime() {cout << hour << ":" << minute << ":" << second << endl;}
+private:
+	int hour, minute, second;
+};
+
+void Clock::SetTime(int newH = 0, int newM = 0, int newS = 0) {
+	hour = newH, minute = newM, second = newS;
+}
+//构造函数的实现
+Clock::Clock(int newH, int newM, int newS) {
+	hour = newH, minute = newM, second = newS;
+}
+//复制构造函数的实现
+Clock::Clock(Clock& p) {
+	hour = p.hour;
+	minute = p.minute;
+	second = p.second;
+	cout << "Calling the copy constructor" << endl;
+}
+int main() {
+	Clock a(0,0,1);//隐含对构造函数的调用
+	a.ShowTime();
+	//用类的一个对象去初始化该类的另一个对象
+	Clock b(1,1,1);
+	Clock c(a);
+
+
+
+	return 0;
+}
