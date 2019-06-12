@@ -1,0 +1,35 @@
+/*类型兼容原则：在任何需要基类对象的时候，都可以使用公有派生类来替代
+替代后，派生类对象可以作为基类的对象使用，但只能使用从基类中继承的成员*/
+#include<iostream>
+#include<cmath>
+using namespace std;
+class Base1 {//定义基类
+public:
+	void display() const{
+		cout << "Base 1::display()" << endl;
+	}
+};
+class Base2 :public Base1 {//公有类派生类Base2
+public: 
+	void display() const {
+		cout << "Base 2::display()" << endl;
+	}
+};
+class Derived :public Base2 {
+public:
+	void display() const {
+		cout << "Derived::display()" << endl;
+	}
+};
+void fun(Base1 *ptr) {
+	ptr->display();
+}
+int main() {
+	Base1 base1;
+	Base2 base2;
+	Derived derived;
+	fun(&base1);
+	fun(&base2);
+	fun(&derived);
+	return 0;
+}
