@@ -1,0 +1,35 @@
+#include<iostream>
+using namespace std;
+
+class Base1 {//构造基类1，构造函数带有参数
+public:
+	Base1(int i) { cout << "constructing Base1" <<i<< endl; }
+	~Base1() { cout << "destructing Base1" << endl; }
+};
+
+class Base2 {//构造基类2，构造函数带有参数
+public:
+	Base2(int j) { cout << "constructing Base2" << j << endl; }
+	~Base2() { cout << "destructing Base2" << endl; }
+};
+
+class Base3 {//构造基类3，构造函数不带有参数
+public:
+	Base3() { cout << "constructing Base3*"  << endl; }
+	~Base3() { cout << "destructing Base3*" << endl; }
+};
+//构造派生类
+class Derived :public Base1, public Base2, public Base3 {
+public:                              //对基类的初始化与对内嵌对象的初始化
+	Derived(int a,int b,int c,int d) :Base1(a),member1(c),member2(d), Base2(b) {}
+private:
+	Base1 member1;
+	Base2 member2;
+	Base3 member3;
+};
+//先初始化基类在初始化内嵌对象,析构时正好相反
+//对基类的初始化顺序取决于继承时的顺序
+int main() {
+	Derived a(1,2,3,4);
+	return 0;
+}
