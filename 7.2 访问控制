@@ -1,0 +1,69 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+class Point {//基类Point 
+public://公有函数成员 
+	void initPoint(float x = 0, float y = 0) {
+		this->x = x; this->y = y;
+	}
+	void move(float offX, float offY) {
+		x += offX; y += offY;
+	}
+	float getX() const{
+		return x;
+	}
+	float getY() const{
+		return y;
+	}
+private:
+	float x, y;//私有数据成员 
+};
+
+//公有继承，基类中的公有成员和保护类成员可以访问且属性仍然不变
+class Rectectangle :public Point {
+public://新增公有函数成员
+	void initRectangle(float x, float y, float w, float h) {
+		initPoint(x, y);//可以直接调用基类的公有函数成员
+		this->w = w;
+		this->h = h;
+	}
+	float getH()const { return h; }
+	float getW()const { return w; }
+private://新增私有函数成员
+	float w, h;
+};
+//私有继承，基类的公有成员和保护类成员以私有成员身份出现在派生类中
+//若进一步派生，则基类所有成员均无法被直接访问到
+//私有继承使用的比较少
+class Rectectangle1 :private Point {//派生类定义部分
+public://新增公有函数成员
+	void initRectangle(float x, float y, float w, float h) {
+		initPoint(x, y);//可以直接调用基类的公有函数成员
+		this->w = w;
+		this->h = h;
+	}
+	float getX()const { return Point::getX(); }
+	float getY()const { return Point::getY(); }
+	float getH()const { return h; }
+	float getW()const { return w; }
+private://新增私有函数成员
+	float w, h;
+};
+//保护继承：基类的公有成员与保护类成员都以保护类的身份出现在派生类中
+
+int main() {
+	Rectectangle rect;
+	rect.initRectangle(2, 3, 20, 10);//设置矩阵数据
+	rect.move(3, 2);//可直接调用基类的公有函数
+	cout << "The date of rect(x,y,w,h):" << endl;
+	cout << rect.getX() << "," << rect.getY() << "," << rect.getW() << "," << rect.getH() << endl;
+	
+	Rectectangle1 rect1;
+	rect1.initRectangle(2, 3, 20, 10);//设置矩阵数据
+	//rect1.move(3, 2);//不可直接调用基类的公有函数
+	cout << "The date of rect(x,y,w,h):" << endl;
+	cout << rect1.getX() << "," << rect1.getY() << "," << rect1.getW() << "," << rect1.getH() << endl;
+
+	return 0;
+}
