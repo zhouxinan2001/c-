@@ -1,0 +1,30 @@
+#include<iostream>
+using namespace std;
+//从不同路径继承过来的同名数据成员在内存中就只有一个副本
+//同一个函数名也只有一个映射
+class Base {//定义共同基类
+public:
+	int var0;
+	int fun0() { cout << "Member of Base0" << endl; }
+};
+class Base1:virtual public Base {//定义基类1
+public:
+	int var1;
+};
+class Base2 :virtual public Base {//定义基类2
+public:
+	int var2;
+};
+class Derived :public Base1, public Base2 {
+public:
+	int var3;
+	int fun() { cout << "Member of Derived" << endl; }
+};
+int main() {
+	Derived d;
+	Base2 a;
+	a.fun0();
+	d.var0 = 2;
+	d.fun0();
+	return 0;
+}
